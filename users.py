@@ -30,7 +30,7 @@ class User:
         while True:
             potentialSex = int(input("Введите ваш пол. 0 = Мужской, 1 = Женский: "))
 
-            if potentialSex == 1 or potentialSex:
+            if potentialSex == 1 or potentialSex == 0:
                 break
             else:
                 print("Пол должен указываться числом 0 или 1")
