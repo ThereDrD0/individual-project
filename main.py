@@ -1,5 +1,5 @@
 from items import get_item_names, register_new_item
-from users import User, users
+from users import User, all_users
 
 
 def main():
@@ -12,7 +12,7 @@ def login() -> User:
     name = input("Введите свое имя: ")
     
     user = None
-    for maybeUser in users:
+    for maybeUser in all_users:
         if maybeUser.name != name:
             continue
 

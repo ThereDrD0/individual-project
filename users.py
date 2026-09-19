@@ -41,14 +41,15 @@ class User:
     def login(self):
         print(f"\n{self.name}, Добро пожаловать")
 
-    def register(self):
+    def register(self) -> bool:
         age = self.__get_age__()
         sex = self.__get_sex__()
 
         self.age = age
         self.sex = sex
 
-        users.append(self)
+        all_users.append(self)
+        return True
 
 
-users: list[User] = []
+all_users: list[User] = []
