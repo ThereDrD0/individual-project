@@ -162,66 +162,167 @@ def init_default_data() -> tuple[
     list[User], list[Item], list[ItemRequest], list[Transfer]
 ]:
     """Создает начальный набор демонстрационных данных при первом запуске."""
-    u1 = User("Алексей Зубков", age=21, sex=Sex.MALE, user_id=1)
-    u2 = User("Елена Смирнова", age=20, sex=Sex.FEMALE, user_id=2)
-    u3 = User("Иван Ковалев", age=22, sex=Sex.MALE, user_id=3)
-    users = [u1, u2, u3]
+    users = [
+        User("Алексей Зубков", age=21, sex=Sex.MALE, user_id=1),
+        User("Елена Смирнова", age=20, sex=Sex.FEMALE, user_id=2),
+        User("Иван Ковалев", age=22, sex=Sex.MALE, user_id=3),
+        User("Дарья Васильева", age=19, sex=Sex.FEMALE, user_id=4),
+        User("Максим Соколов", age=23, sex=Sex.MALE, user_id=5),
+        User("Анна Морозова", age=21, sex=Sex.FEMALE, user_id=6),
+        User("Дмитрий Попов", age=20, sex=Sex.MALE, user_id=7),
+        User("София Кузнецова", age=22, sex=Sex.FEMALE, user_id=8),
+    ]
 
-    it1 = Item(
-        name="Электрический чайник",
-        owner=u1,
-        item_id=1,
-        description="Чайник Bosch на 1.7 л, отлично кипятит воду для чая.",
-    )
-    it2 = Item(
-        name="Утюг с отпаривателем",
-        owner=u2,
-        item_id=2,
-        description="Компактный утюг для глажки одежды перед парами.",
-    )
-    it3 = Item(
-        name="Ударная дрель",
-        owner=u3,
-        item_id=3,
-        description="Дрель Makita для хозяйственных нужд и сборки мебели.",
-    )
-    it4 = Item(
-        name="Микроволновая печь",
-        owner=None,
-        item_id=4,
-        description="Общая микроволновка на этаже, сейчас свободна.",
-    )
-    items = [it1, it2, it3, it4]
+    items = [
+        Item(
+            name="Электрический чайник",
+            owner=users[0],
+            item_id=1,
+            description="Чайник Bosch на 1.7 л, быстро кипятит воду.",
+        ),
+        Item(
+            name="Утюг с отпаривателем",
+            owner=users[1],
+            item_id=2,
+            description="Компактный утюг для глажки одежды перед парами.",
+        ),
+        Item(
+            name="Ударная дрель",
+            owner=users[2],
+            item_id=3,
+            description="Дрель Makita для ремонта и сборки мебели.",
+        ),
+        Item(
+            name="Микроволновая печь",
+            owner=None,
+            item_id=4,
+            description="Общая микроволновка на этаже, сейчас свободна.",
+        ),
+        Item(
+            name="Пылесос циклонный",
+            owner=users[3],
+            item_id=5,
+            description="Мощный безмешковый пылесос для комнат.",
+        ),
+        Item(
+            name="Гладильная доска",
+            owner=None,
+            item_id=6,
+            description="Складная гладильная доска общего пользования.",
+        ),
+        Item(
+            name="Набор инструментов",
+            owner=users[4],
+            item_id=7,
+            description="Чемоданчик с ключами, отвертками и рулеткой.",
+        ),
+        Item(
+            name="Мультиварка Redmond",
+            owner=users[5],
+            item_id=8,
+            description="Мультиварка на 5 литров для каш, супов и плова.",
+        ),
+        Item(
+            name="Напольный вентилятор",
+            owner=None,
+            item_id=9,
+            description="Вентилятор с тремя скоростями и автоповоротом.",
+        ),
+        Item(
+            name="Сушилка для белья",
+            owner=users[6],
+            item_id=10,
+            description="Раскладная металлическая сушилка для одежды.",
+        ),
+        Item(
+            name="Настольная LED-лампа",
+            owner=users[7],
+            item_id=11,
+            description="Светодиодная лампа с регулировкой яркости.",
+        ),
+        Item(
+            name="Тостер Philips",
+            owner=None,
+            item_id=12,
+            description="Тостер на два отделения для хрустящего хлеба.",
+        ),
+    ]
 
-    req1 = ItemRequest(
-        item=it1,
-        old_user=u1,
-        new_user=u2,
-        status=ItemRequestStatus.APPROVED,
-        request_id=1,
-        created_at="2026-10-10 12:00:00",
-    )
-    req2 = ItemRequest(
-        item=it2,
-        old_user=u2,
-        new_user=u3,
-        status=ItemRequestStatus.PENDING,
-        request_id=2,
-        created_at="2026-10-12 18:30:00",
-    )
-    requests = [req1, req2]
+    requests = [
+        ItemRequest(
+            item=items[0],
+            old_user=users[0],
+            new_user=users[1],
+            status=ItemRequestStatus.APPROVED,
+            request_id=1,
+            created_at="2026-10-10 12:00:00",
+        ),
+        ItemRequest(
+            item=items[1],
+            old_user=users[1],
+            new_user=users[2],
+            status=ItemRequestStatus.PENDING,
+            request_id=2,
+            created_at="2026-10-12 18:30:00",
+        ),
+        ItemRequest(
+            item=items[4],
+            old_user=users[3],
+            new_user=users[0],
+            status=ItemRequestStatus.PENDING,
+            request_id=3,
+            created_at="2026-10-13 10:15:00",
+        ),
+        ItemRequest(
+            item=items[6],
+            old_user=users[4],
+            new_user=users[2],
+            status=ItemRequestStatus.APPROVED,
+            request_id=4,
+            created_at="2026-10-11 14:20:00",
+        ),
+        ItemRequest(
+            item=items[7],
+            old_user=users[5],
+            new_user=users[7],
+            status=ItemRequestStatus.REJECTED,
+            request_id=5,
+            created_at="2026-10-09 16:45:00",
+        ),
+    ]
 
-    tr1 = Transfer(
-        item_id=1,
-        from_user_id=1,
-        to_user_id=2,
-        transfer_id=1,
-        transferred_at="2026-10-10 12:05:00",
-        item=it1,
-        from_user=u1,
-        to_user=u2,
-    )
-    transfers = [tr1]
+    transfers = [
+        Transfer(
+            item_id=1,
+            from_user_id=1,
+            to_user_id=2,
+            transfer_id=1,
+            transferred_at="2026-10-10 12:05:00",
+            item=items[0],
+            from_user=users[0],
+            to_user=users[1],
+        ),
+        Transfer(
+            item_id=7,
+            from_user_id=5,
+            to_user_id=3,
+            transfer_id=2,
+            transferred_at="2026-10-11 14:25:00",
+            item=items[6],
+            from_user=users[4],
+            to_user=users[2],
+        ),
+        Transfer(
+            item_id=3,
+            from_user_id=1,
+            to_user_id=3,
+            transfer_id=3,
+            transferred_at="2026-10-08 09:30:00",
+            item=items[2],
+            from_user=users[0],
+            to_user=users[2],
+        ),
+    ]
 
     save_users(users)
     save_items(items)

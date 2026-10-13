@@ -14,5 +14,29 @@
     "new_user_id": 3,
     "status": "PENDING",
     "created_at": "2026-10-12 18:30:00"
+  },
+  {
+    "id": 3,
+    "item_id": 5,
+    "old_user_id": 4,
+    "new_user_id": 1,
+    "status": "PENDING",
+    "created_at": "2026-10-13 10:15:00"
+  },
+  {
+    "id": 4,
+    "item_id": 7,
+    "old_user_id": 5,
+    "new_user_id": 3,
+    "status": "APPROVED",
+    "created_at": "2026-10-11 14:20:00"
+  },
+  {
+    "id": 5,
+    "item_id": 8,
+    "old_user_id": 6,
+    "new_user_id": 8,
+    "status": "REJECTED",
+    "created_at": "2026-10-09 16:45:00"
   }
 ]
