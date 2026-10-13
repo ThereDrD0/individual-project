@@ -1,0 +1,9 @@
+{% if req.status.name == "APPROVED" %}
+  <span class="badge bg-success">Одобрен</span>
+{% elif req.status.name == "PENDING" %}
+  <span class="badge bg-warning text-dark">В ожидании</span>
+{% elif req.status.name == "REJECTED" %}
+  <span class="badge bg-danger">Отклонен</span>
+{% else %}
+  <span class="badge bg-secondary">{{ req.status.value }}</span>
+{% endif %}

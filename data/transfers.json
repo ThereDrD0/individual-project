@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "item_id": 1,
+    "from_user_id": 1,
+    "to_user_id": 2,
+    "transferred_at": "2026-10-10 12:05:00"
+  }
+]

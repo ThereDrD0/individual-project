@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Запросы и передачи — Площадка совместного использования{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <h1 class="h2 fw-bold mb-1">Запросы на получение вещей</h1>
+  <p class="text-muted">Все созданные заявки на совместное использование предметов между соседями.</p>
+</div>
+
+<div class="card shadow-sm border-0 mb-5">
+  <div class="card-header bg-white py-3 fw-bold d-flex justify-content-between align-items-center">
+    <span>Список запросов ({{ requests|length }})</span>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Предмет</th>
+          <th>Текущий владелец</th>
+          <th>Запрашивает</th>
+          <th>Статус</th>
+          <th>Дата создания</th>
+          <th>Действие</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in requests %}
+        <tr>
+          <td>#{{ req.id }}</td>
+          <td class="fw-semibold">
+            <a href="{% url 'items:detail' req.item.id %}">{{ req.item.name }}</a>
+          </td>
+          <td>{{ req.old_user.name }}</td>
+          <td>{{ req.new_user.name }}</td>
+          <td>
+            {% include "item_requests/includes/request_status.html" %}
+          </td>
+          <td class="text-muted small">{{ req.created_at }}</td>
+          <td>
+            <a href="{% url 'item_requests:detail' req.id %}" class="btn btn-sm btn-outline-primary">
+              Детали
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center text-muted py-4">
+            Запросов на совместное использование пока нет.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="mb-4">
+  <h2 class="h3 fw-bold mb-1">История состоявшихся передач</h2>
+  <p class="text-muted">Журнал фиксации передачи предметов из рук в руки.</p>
+</div>
+
+<div class="card shadow-sm border-0">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Предмет</th>
+          <th>Прежний владелец</th>
+          <th>Новый владелец</th>
+          <th>Дата и время передачи</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in transfers %}
+        <tr>
+          <td>#{{ t.id }}</td>
+          <td class="fw-semibold">
+            {% if t.item %}
+              <a href="{% url 'items:detail' t.item.id %}">{{ t.item.name }}</a>
+            {% else %}
+              ID: {{ t.item_id }}
+            {% endif %}
+          </td>
+          <td>{{ t.from_user.name }}</td>
+          <td>{{ t.to_user.name }}</td>
+          <td class="text-muted small">{{ t.transferred_at }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center text-muted py-4">
+            Передач пока не зафиксировано.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

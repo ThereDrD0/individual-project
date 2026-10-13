@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}404 — Страница не найдена{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+  <div class="display-1 fw-bold text-danger mb-3">404</div>
+  <h2 class="fw-bold mb-3">Упс! Страница или ресурс не найдены</h2>
+  <p class="text-muted lead mb-4">
+    Запрошенный адрес <code>{{ path }}</code> не существует, либо запрошенный предмет/запрос был удален.
+  </p>
+  <div class="d-flex justify-content-center gap-3">
+    <a href="{% url 'homepage:index' %}" class="btn btn-primary btn-lg">
+      🏠 На главную страницу
+    </a>
+    <a href="{% url 'items:list' %}" class="btn btn-outline-secondary btn-lg">
+      📦 В каталог вещей
+    </a>
+  </div>
+</div>
+{% endblock %}

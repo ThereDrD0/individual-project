@@ -1,0 +1,27 @@
+<div class="card h-100 shadow-sm border-0 item-card">
+  <div class="card-body d-flex flex-column">
+    <div class="d-flex justify-content-between align-items-start mb-2">
+      <h5 class="card-title fw-semibold text-primary mb-0">
+        {{ item.name }}
+      </h5>
+      {% if item.owner %}
+        <span class="badge bg-secondary">У пользователя: {{ item.owner.name }}</span>
+      {% else %}
+        <span class="badge bg-success">Свободен</span>
+      {% endif %}
+    </div>
+    <p class="card-text text-muted small flex-grow-1">
+      {% if item.description %}
+        {{ item.description }}
+      {% else %}
+        <em>Описание не указано</em>
+      {% endif %}
+    </p>
+    <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center">
+      <small class="text-muted">ID: #{{ item.id }}</small>
+      <a href="{% url 'items:detail' item.id %}" class="btn btn-sm btn-outline-primary">
+        Подробнее &rarr;
+      </a>
+    </div>
+  </div>
+</div>

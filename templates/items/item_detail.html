@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}{{ item.name }} — Детали вещи{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'homepage:index' %}">Главная</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'items:list' %}">Каталог вещей</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ item.name }}</li>
+  </ol>
+</nav>
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="card-title fw-bold text-primary mb-0">{{ item.name }}</h2>
+          {% if item.owner %}
+            <span class="badge bg-secondary fs-6">Занято</span>
+          {% else %}
+            <span class="badge bg-success fs-6">Свободно для запроса</span>
+          {% endif %}
+        </div>
+
+        <h6 class="text-muted mb-3">ID предмета: #{{ item.id }}</h6>
+
+        <div class="mb-4">
+          <h5>Описание:</h5>
+          <p class="lead fs-6 text-secondary">
+            {% if item.description %}
+              {{ item.description }}
+            {% else %}
+              <em>Описание отсутствует.</em>
+            {% endif %}
+          </p>
+        </div>
+
+        <div class="p-3 bg-light rounded-3 mb-4">
+          <h6 class="fw-bold mb-2">Информация о текущем владельце:</h6>
+          {% if item.owner %}
+            <ul class="list-unstyled mb-0">
+              <li><strong>Имя:</strong> {{ item.owner.name }}</li>
+              {% if item.owner.age %}
+                <li><strong>Возраст:</strong> {{ item.owner.age }} лет</li>
+              {% endif %}
+              {% if item.owner.sex %}
+                <li><strong>Пол:</strong> {{ item.owner.sex.label }}</li>
+              {% endif %}
+            </ul>
+          {% else %}
+            <p class="text-success mb-0">Предмет свободен и никому не передан.</p>
+          {% endif %}
+        </div>
+
+        <div class="d-flex gap-2">
+          <a href="{% url 'items:list' %}" class="btn btn-outline-secondary">
+            &larr; Вернуться в каталог
+          </a>
+          <a href="{% url 'item_requests:list' %}" class="btn btn-primary">
+            Посмотреть все запросы
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- История передач этого предмета -->
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-white py-3 fw-bold">
+        История передач этого предмета
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>От кого</th>
+              <th>Кому</th>
+              <th>Дата и время</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for t in transfers %}
+            <tr>
+              <td>{{ t.id }}</td>
+              <td>{{ t.from_user.name }}</td>
+              <td>{{ t.to_user.name }}</td>
+              <td class="text-muted small">{{ t.transferred_at }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="text-center text-muted py-3">
+                Передач этой вещи пока не зафиксировано.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Боковая колонка с запросами -->
+  <div class="col-lg-4">
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-white py-3 fw-bold">
+        Запросы на этот предмет
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          {% for r in requests %}
+          <li class="list-group-item px-0">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <strong>От: {{ r.new_user.name }}</strong>
+              {% if r.status.name == "APPROVED" %}
+                <span class="badge bg-success">Одобрен</span>
+              {% elif r.status.name == "PENDING" %}
+                <span class="badge bg-warning text-dark">В ожидании</span>
+              {% else %}
+                <span class="badge bg-danger">Отклонен</span>
+              {% endif %}
+            </div>
+            <small class="text-muted">{{ r.created_at }}</small>
+            <div class="mt-1">
+              <a href="{% url 'item_requests:detail' r.id %}" class="small">
+                Подробнее о запросе &rarr;
+              </a>
+            </div>
+          </li>
+          {% empty %}
+          <li class="list-group-item px-0 text-muted">
+            Нет активных запросов на данный предмет.
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
