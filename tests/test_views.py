@@ -1,4 +1,4 @@
-"""Автоматизированные тесты маршрутов и веб-страниц Django (ПР5 и ПР6)."""
+"""Автоматизированные тесты маршрутов и веб-страниц Django (ПР5, 6, 7)."""
 
 import os
 import django
@@ -77,3 +77,33 @@ def test_request_detail_view_not_found():
     client = Client()
     response = client.get("/requests/99999/")
     assert response.status_code == 404
+
+
+def test_available_items_view():
+    """Тест страницы поиска свободных вещей и фильтрации по q."""
+    client = Client()
+    response = client.get("/items/available/")
+    assert response.status_code == 200
+    content = response.content.decode("utf-8")
+    assert "Поиск свободных вещей" in content
+
+    # Поиск существующей свободной вещи
+    res_search = client.get("/items/available/?q=Тостер")
+    assert res_search.status_code == 200
+    assert "Тостер Philips" in res_search.content.decode("utf-8")
+
+    # Поиск несуществующей вещи
+    res_empty = client.get("/items/available/?q=НесуществующаяВещь123")
+    assert res_empty.status_code == 200
+    assert "Свободные предметы не найдены" in res_empty.content.decode("utf-8")
+
+
+def test_statistics_view():
+    """Тест страницы статистики и аналитики заявок."""
+    client = Client()
+    response = client.get("/requests/statistics/")
+    assert response.status_code == 200
+    content = response.content.decode("utf-8")
+    assert "Статистика сервиса" in content
+    assert "Популярность предметов" in content
+    assert "Предметы с активным спросом" in content

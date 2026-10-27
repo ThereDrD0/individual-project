@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} — Площадка совместного использования{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <h1 class="h2 fw-bold mb-1">Статистика сервиса</h1>
+  <p class="text-muted">Аналитика востребованности вещей и распределения заявок на платформе.</p>
+</div>
+
+<!-- Распределение заявок по всем предметам (GROUP BY) -->
+<div class="card shadow-sm border-0 mb-5">
+  <div class="card-header bg-white py-3 fw-bold d-flex justify-content-between align-items-center">
+    <span>Популярность предметов (всего вещей: {{ popular_items|length }})</span>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th style="width: 80px;">ID</th>
+          <th>Название предмета</th>
+          <th style="width: 220px;" class="text-center">Количество заявок</th>
+          <th style="width: 140px;">Действие</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in popular_items %}
+        <tr>
+          <td>#{{ item.id }}</td>
+          <td class="fw-semibold">
+            <a href="{% url 'items:detail' item.id %}">{{ item.name }}</a>
+          </td>
+          <td class="text-center">
+            {% if item.requests_count > 0 %}
+              <span class="badge bg-primary fs-6">{{ item.requests_count }}</span>
+            {% else %}
+              <span class="badge bg-light text-muted fs-6">0</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'items:detail' item.id %}" class="btn btn-sm btn-outline-primary">
+              Подробнее
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-center text-muted py-4">
+            Данные о предметах отсутствуют.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Предметы со спросом (HAVING COUNT >= 1) -->
+<div class="card shadow-sm border-0 mb-4">
+  <div class="card-header bg-white py-3 fw-bold d-flex justify-content-between align-items-center">
+    <span>Предметы с активным спросом (с заявками: {{ items_with_requests|length }})</span>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th style="width: 80px;">ID</th>
+          <th>Название предмета</th>
+          <th style="width: 220px;" class="text-center">Подано заявок</th>
+          <th style="width: 140px;">Действие</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items_with_requests %}
+        <tr>
+          <td>#{{ item.id }}</td>
+          <td class="fw-semibold">
+            <a href="{% url 'items:detail' item.id %}">{{ item.name }}</a>
+          </td>
+          <td class="text-center">
+            <span class="badge bg-success fs-6">{{ item.requests_count }}</span>
+          </td>
+          <td>
+            <a href="{% url 'items:detail' item.id %}" class="btn btn-sm btn-outline-primary">
+              Подробнее
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-center text-muted py-4">
+            Предметов с активными заявками пока нет.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

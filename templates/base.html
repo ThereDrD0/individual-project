@@ -40,7 +40,13 @@
             <a class="nav-link" href="{% url 'items:list' %}">Каталог вещей</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'items:available' %}">Поиск свободных</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'item_requests:list' %}">Запросы и передачи</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'item_requests:statistics' %}">Статистика</a>
           </li>
         </ul>
       </div>
